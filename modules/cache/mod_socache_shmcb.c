@@ -490,7 +490,7 @@ static apr_status_t socache_shmcb_init(ap_socache_instance_t *ctx,
 static void socache_shmcb_destroy(ap_socache_instance_t *ctx, server_rec *s)
 {
     if (ctx) {
-        apr_pool_cleanup_run(ctx->pool, ctx, socache_shmcb_cleanup); 
+        apr_pool_cleanup_run(ctx->pool, ctx, socache_shmcb_cleanup);
     }
 }
 
@@ -622,10 +622,10 @@ static void socache_shmcb_status(ap_socache_instance_t *ctx,
                 min_expiry = ((idx_expiry < min_expiry) ? idx_expiry : min_expiry);
         }
     }
-    index_pct = (100 * total) / (header->index_num *
-                                 header->subcache_num);
-    cache_pct = (100 * cache_total) / (header->subcache_data_size *
-                                       header->subcache_num);
+    index_pct = (int)((100ull * total) / (header->index_num *
+                                 header->subcache_num));
+    cache_pct = (int)((100ull * cache_total) / (header->subcache_data_size *
+                                       header->subcache_num));
     /* Generate Output */
     if (!(flags & AP_STATUS_SHORT)) {
         ap_rprintf(r, "cache type: <b>SHMCB</b>, shared memory: <b>%" APR_SIZE_T_FMT "</b> "
